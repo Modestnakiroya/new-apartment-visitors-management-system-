@@ -4,8 +4,8 @@
 
 @section('content')
 <div class="container-fluid">
-    <h1 class="mb-4">Security Dashboard</h1>
-    
+    <h1 class="mb-4">Askari Dashboard</h1>
+
     <div class="row mb-4">
         <div class="col-md-12">
             <div class="card">
@@ -63,7 +63,7 @@
             </div>
         </div>
     </div>
-    
+
     <div class="row">
         <div class="col-md-12">
             <div class="card">

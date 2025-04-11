@@ -13,22 +13,17 @@ class AuthServiceProvider extends ServiceProvider
      * @var array<class-string, class-string>
      */
     protected $policies = [
-        // Register your model policies here if needed
+
     ];
 
-    /**
-     * Register any authentication / authorization services.
-     */
     public function boot(): void
     {
         $this->registerPolicies();
 
-        // Define admin gate
         Gate::define('admin', function ($user) {
             return $user->isAdmin();
         });
 
-        // Define security gate (admins inherit security permissions)
         Gate::define('security', function ($user) {
             return $user->isSecurity() || $user->isAdmin();
         });
@@ -38,11 +33,8 @@ class AuthServiceProvider extends ServiceProvider
             return $user->isResident();
         });
 
-        // Optional: Define a super-admin gate if needed
         Gate::define('super-admin', function ($user) {
-            return $user->isSuperAdmin(); // You would need to implement this method
+            return $user->isSuperAdmin();
         });
-
-        // Additional role-based gates can be added here
     }
 }

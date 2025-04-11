@@ -21,7 +21,6 @@ Route::get('/', function () {
 
 // Authenticated routes
 Route::middleware(['auth'])->group(function () {
-    // Home redirect - fixes the missing /home route
     Route::redirect('/home', '/dashboard');
 
     // Main dashboard router
@@ -38,7 +37,6 @@ Route::middleware(['auth'])->group(function () {
             return redirect()->route('resident.dashboard');
         }
 
-        // Fallback - shouldn't reach here but just in case
         return redirect('/');
     })->name('dashboard');
 
@@ -57,13 +55,21 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/admin/dashboard', [DashboardController::class, 'adminDashboard'])
             ->name('admin.dashboard');
         Route::resource('users', UserController::class);
-        Route::resource('apartments', ApartmentController::class);
     });
 
     // Security Routes
     Route::middleware(['can:security'])->group(function () {
         Route::get('/security/dashboard', [DashboardController::class, 'securityDashboard'])
             ->name('security.dashboard');
+
+        // Visitor management routes for security
+        Route::get('/visitors', [VisitorController::class, 'index'])->name('visitors.index');
+        Route::get('/visitors/create', [VisitorController::class, 'create'])->name('visitors.create');
+        Route::post('/visitors', [VisitorController::class, 'store'])->name('visitors.store');
+        Route::get('/visitors/{visitor}', [VisitorController::class, 'show'])->name('visitors.show');
+        Route::post('/visitors/{visitor}/checkout', [VisitorController::class, 'checkout'])->name('visitors.checkout');
+        Route::put('/visitors/{visitor}/checkout', [VisitorController::class, 'checkout'])->name('visitors.checkout.put');
+        Route::get('/visitors/search', [VisitorController::class, 'search'])->name('visitors.search');
     });
 
     // Resident Routes
@@ -78,27 +84,9 @@ Route::middleware(['auth'])->group(function () {
             ->name('schedule-visit.store');
     });
 
-    Route::get('/visitors/search', [VisitorController::class, 'search'])
-        ->name('visitors.search')
-        ->middleware(['auth', 'can:admin,security']);
-
-    Route::resource('residents', ResidentController::class)
-        ->middleware(['auth', 'can:admin,security']);
-
-    Route::resource('residents', ResidentController::class)
-        ->middleware(['auth', 'can:admin,security']);
-
-    Route::resource('apartments', ApartmentController::class)
-        ->middleware(['auth', 'can:admin']);
-
-    Route::put('/visitors/{visitor}/checkout', [VisitorController::class, 'checkout'])
-        ->name('visitors.checkout')
-        ->middleware(['auth', 'can:admin,security']);
-
     // Security and Admin shared routes
-    Route::middleware(['can:admin,security'])->group(function () {
+    Route::middleware(['can:security'])->group(function () {
         Route::resource('residents', ResidentController::class);
-        Route::resource('visitors', VisitorController::class);
         Route::resource('visits', VisitController::class);
         Route::post('visits/{visit}/check-in', [VisitController::class, 'checkIn'])
             ->name('visits.check-in');
@@ -111,5 +99,10 @@ Route::middleware(['auth'])->group(function () {
             Route::get('/visits', [ReportController::class, 'visits'])->name('reports.visits');
             Route::get('/export/{type}', [ReportController::class, 'export'])->name('reports.export');
         });
+    });
+
+    // Admin-only routes
+    Route::middleware(['can:admin'])->group(function () {
+        Route::resource('apartments', ApartmentController::class);
     });
 });
