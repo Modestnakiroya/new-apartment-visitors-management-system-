@@ -57,6 +57,30 @@ class VisitorManagementController extends Controller
         ));
     }
     
+    public function sendEmail(Request $request)
+    {
+        $validated = $request->validate([
+            'email' => 'required|email|max:255',
+            //'pass_id' => 'required|string|max:255',
+            'name' => 'required|string|max:255',
+            //'resident_name' => 'required|string|max:255',
+            //'apartment_number' => 'required|string|max:50',
+            //'visit_date' => 'required|date',
+            //'visit_time' => 'required',
+            //'purpose' => 'required|string|max:100',
+            //'other_purpose' => 'nullable|string|max:255',
+        ]);
+
+        $visitorData = $validated;
+
+        try {
+            Mail::to($visitorData['email'])->send(new VisitorPassMail($visitorData));
+            return response()->json(['success' => true, 'message' => 'Email sent successfully']);
+        } catch (\Exception $e) {
+            return response()->json(['success' => false, 'message' => 'Failed to send email: ' . $e->getMessage()], 500);
+        }
+    }
+    
     public function search(Request $request)
     {
         $search = $request->input('search');
