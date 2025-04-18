@@ -46,9 +46,13 @@ class AnalyticsController extends Controller
         // Process purposes into labels and data for the chart
         $purposeLabels = $visitPurposes->pluck('purpose');
         $purposeCounts = $visitPurposes->pluck('count');
+        // Pass as JSON for JavaScript
+       $purposeLabelsJson = $purposeLabels->toJson();
+       $purposeCountsJson = $purposeCounts->toJson();
+       
     
 
-    return view('analytics', compact('mostFrequentVisitors','apartmentsWithMostVisitors','purposeLabels','purposeCounts'));
+    return view('analytics', compact('mostFrequentVisitors','apartmentsWithMostVisitors','purposeLabels','purposeCounts','visitPurposes','purposeLabelsJson','purposeCountsJson'));
 }
 
 

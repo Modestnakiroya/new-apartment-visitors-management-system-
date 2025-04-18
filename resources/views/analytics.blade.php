@@ -64,13 +64,13 @@
     <div class="container-fluid">
         <h2 class="dashboard-title">Visitor Management Analytics</h2>
         
-        < class="row">
+        <div class="row">
             <!-- Frequent Visitors -->
-<div class="col-md-6">
-    <div class="card">
-        <div class="card-header">
+            <div class="col-md-6">
+               <div class="card">
+              <div class="card-header">
             <h4 class="card-title">Most Frequent Visitors This Month</h4>
-        </div>
+         </div>
         <div class="card-body">
             <ol>
                 @forelse ($mostFrequentVisitors as $visitor)
@@ -101,6 +101,7 @@
             </ul>
         </div>
     </div>
+</div>
 </div>
 
         
@@ -169,6 +170,8 @@
 
 @push('js')
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<!-- Include Chart.js -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script type="text/javascript">
     // Add the color palette here
     var colorPalette = [
@@ -180,109 +183,84 @@
 
     $(document).ready(function() {
         // Chart for visit purposes
-        var ctxPurpose = document.getElementById('purposeChart').getContext('2d');
-        var purposeChart = new Chart(ctxPurpose, {
-            type: 'doughnut',
-            data: {
-                labels: ['Family Visit', 'Delivery', 'Maintenance', 'Friend Visit', 'Other'],
-                datasets: [{
-                    data: [35, 25, 15, 20, 5],
-                    backgroundColor: [
-                        'rgba(255, 99, 132, 0.8)',
-                        'rgba(54, 162, 235, 0.8)',
-                        'rgba(255, 206, 86, 0.8)',
-                        'rgba(75, 192, 192, 0.8)',
-                        'rgba(153, 102, 255, 0.8)'
-                    ],
-                    borderColor: [
-                        'rgba(255, 99, 132, 1)',
-                        'rgba(54, 162, 235, 1)',
-                        'rgba(255, 206, 86, 1)',
-                        'rgba(75, 192, 192, 1)',
-                        'rgba(153, 102, 255, 1)'
-                    ],
-                    borderWidth: 1
-                }]
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                plugins: {
-                    legend: {
-                        position: 'bottom',
-                        labels: {
-                            font: {
-                                size: 14
-                            }
-                        }
-                    },
-                    title: {
-                        display: true,
-                        text: 'Visit Purposes Distribution',
-                        font: {
-                            size: 18
-                        }
-                    },
-                    tooltip: {
-                        callbacks: {
-                            label: function(context) {
-                                var label = context.label || '';
-                                var value = context.parsed || 0;
-                                var total = context.dataset.data.reduce((a, b) => a + b, 0);
-                                var percentage = Math.round((value / total) * 100);
-                                return `${label}: ${percentage}% (${value})`;
-                            }
-                        }
-                    }
-                },
-                cutout: '50%'
-            }
-        });
+      // Chart for visit purposes
+var ctxPurpose = document.getElementById('purposeChart').getContext('2d');
 
-        // Chart for visit duration by day
-        var ctxDuration = document.getElementById('durationChart').getContext('2d');
-        var durationChart = new Chart(ctxDuration, {
-            type: 'bar',
-            data: {
-                labels: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
-                datasets: [{
-                    label: 'Average Visit Duration (minutes)',
-                    data: [45, 38, 52, 48, 65, 95, 85],
-                    backgroundColor: 'rgba(54, 162, 235, 0.6)',
-                    borderColor: 'rgba(54, 162, 235, 1)',
-                    borderWidth: 1
-                }]
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                scales: {
-                    y: {
-                        beginAtZero: true,
-                        title: {
-                            display: true,
-                            text: 'Duration (minutes)'
-                        }
-                    },
-                    x: {
-                        title: {
-                            display: true,
-                            text: 'Day of Week'
-                        }
+// Use the JSON data passed from controller, with proper error handling
+var purposeLabels, purposeCounts;
+try {
+    purposeLabels = {!! $purposeLabelsJson ?? '[]' !!};
+    purposeCounts = {!! $purposeCounts ?? '[]' !!};
+} catch (e) {
+    console.error("Error parsing purpose data:", e);
+    purposeLabels = [];
+    purposeCounts = [];
+}
+
+// Check if we have data
+if (!purposeLabels.length || purposeLabels.length !== purposeCounts.length) {
+    console.log("No purpose data available or data mismatch");
+    purposeLabels = ['No Data'];
+    purposeCounts = [1];
+}
+
+var purposeChart = new Chart(ctxPurpose, {
+    type: 'doughnut',
+    data: {
+        labels: purposeLabels,
+        datasets: [{
+            data: purposeCounts,
+            backgroundColor: [
+                'rgba(255, 99, 132, 0.8)',
+                'rgba(54, 162, 235, 0.8)',
+                'rgba(255, 206, 86, 0.8)',
+                'rgba(75, 192, 192, 0.8)',
+                'rgba(153, 102, 255, 0.8)'
+            ],
+            borderColor: [
+                'rgba(255, 99, 132, 1)',
+                'rgba(54, 162, 235, 1)',
+                'rgba(255, 206, 86, 1)',
+                'rgba(75, 192, 192, 1)',
+                'rgba(153, 102, 255, 1)'
+            ],
+            borderWidth: 1
+        }]
+    },
+    options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+            legend: {
+                position: 'bottom',
+                labels: {
+                    font: {
+                        size: 14
                     }
-                },
-                plugins: {
-                    legend: {
-                        display: true,
-                        position: 'top'
-                    },
-                    title: {
-                        display: true,
-                        text: 'Average Visit Duration by Day'
+                }
+            },
+            title: {
+                display: true,
+                text: 'Visit Purposes Distribution',
+                font: {
+                    size: 18
+                }
+            },
+            tooltip: {
+                callbacks: {
+                    label: function(context) {
+                        var label = context.label || '';
+                        var value = context.parsed || 0;
+                        var total = context.dataset.data.reduce((a, b) => a + b, 0);
+                        var percentage = Math.round((value / total) * 100);
+                        return `${label}: ${percentage}% (${value})`;
                     }
                 }
             }
-        });
+        },
+        cutout: '50%'
+    }
+});
         
         // Chart for visitors by hour
         var ctxHourly = document.getElementById('hourlyChart').getContext('2d');
