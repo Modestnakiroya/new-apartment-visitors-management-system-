@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MATH CHALLENGE</title>
+    <title>Visitor Registration</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
     <style>
         .navbar-brand {
@@ -40,7 +40,7 @@
         <div class="container">
             <div class="navbar-wrapper">
                 <a class="navbar-brand" href="#pablo">
-                    {{ __('Maths') }}
+                    {{ __('Westview Living') }}
                 </a>
                 <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" aria-controls="navigation-index" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-bar burger-lines"></span>

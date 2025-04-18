@@ -1,7 +1,7 @@
-@extends('layouts.app', ['activePage' => 'register', 'title' => 'Apartment Visitor Management System'])
+@extends('layouts.app', ['activePage' => 'register', 'title' => 'Register'])
 
 @section('content')
-<div class="full-page section-image" data-color="blue" data-image="{{ asset('image/1.jpeg') }}">
+<div class="full-page section-image" data-image="{{ asset('image/snap3.jpg') }}">
     <div class="content pt-5">
         <div class="container mt-5">
             <div class="col-md-6 col-sm-8 ml-auto mr-auto">
@@ -9,8 +9,8 @@
                     @csrf
                     <div class="card card-register">
                         <div class="card-header text-center">
-                            <h3 class="header">{{ __('Askari Registration') }}</h3>
-                            <p class="text-muted">Create your security personnel account</p>
+                            <h3 class="header">{{ __('Registration') }}</h3>
+                            <p class="text-muted">Create your account to access the system</p>
                         </div>
                         <div class="card-body">
                             <div class="form-group">
@@ -50,7 +50,7 @@
                         </div>
                         <div class="card-footer">
                             <div class="text-center">
-                                <button type="submit" class="btn btn-primary btn-lg btn-block">{{ __('Register as Askari') }}</button>
+                                <button type="submit" class="btn btn-primary btn-lg btn-block">{{ __('Register') }}</button>
                             </div>
                             <div class="text-center mt-3">
                                 <a class="btn btn-link" href="{{ route('login') }}">
@@ -64,7 +64,7 @@
             <div class="col mt-3">
                 @foreach ($errors->all() as $error)
                     <div class="alert alert-danger alert-dismissible fade show">
-                        <a href="#" class="close" data-dismiss="alert" aria-label="close"> &times;</a>
+                        <a href="#" class="close" data-dismiss="alert" aria-label="close"> ×</a>
                         {{ $error }}
                     </div>
                 @endforeach
@@ -103,11 +103,29 @@
         align-items: center;
         background-size: cover;
         background-position: center;
+        position: relative; /* For pseudo-element positioning */
+    }
+    .full-page::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.2); /* Lighter overlay for less opacity */
+        z-index: 1;
+    }
+    .full-page .content {
+        position: relative;
+        z-index: 2; /* Ensure form content is above overlay */
     }
     .card-register {
         border: none;
         border-radius: 10px;
         box-shadow: 0 15px 35px rgba(50,50,93,.1),0 5px 15px rgba(0,0,0,.07);
+    }
+    .custom-transparent {
+        opacity: 0.6; /* Kept for reference, not used */
     }
     .card-header {
         background-color: transparent;
@@ -121,7 +139,6 @@
     .btn-primary {
         border-radius: 25px;
         padding: 12px 20px;
-        font-weight: bold;
         text-transform: uppercase;
         transition: all 0.3s ease;
     }
@@ -131,7 +148,6 @@
     }
     .btn-link {
         color: #3498db;
-        font-weight: 600;
     }
     .form-check-label {
         color: #555;

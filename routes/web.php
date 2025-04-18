@@ -30,6 +30,9 @@ Route::get('/visitorManagement', [VisitorManagementController::class, 'index'])-
 
 Route::get('/residentDirectory', [ResidentDirectoryController::class, 'index'])->name('residentDirectory');
 
+Route::get('/resident/create', [App\Http\Controllers\ResidentController::class, 'create'])->name('resident.create');
+Route::post('/resident/store', [App\Http\Controllers\ResidentController::class, 'store'])->name('resident.store');
+
 Route::get('/analytics', [App\Http\Controllers\AnalyticsController::class, 'index'])->name('analytics');
 
 
@@ -40,6 +43,8 @@ Route::post('/guest', [GuestController::class, 'uploadVisitorDetails'])->name('u
 
 Route::get('/tables', [App\Http\Controllers\TableController::class, 'retrieveTableInformation'])->name('page.index');
 Route::get('/checkin', [App\Http\Controllers\CheckinController::class, 'index'])->name('checkin');
+
+Route::post('/checkin/send-email', [VisitorManagementController::class, 'sendEmail'])->name('checkin.send-email');
 
 Auth::routes();
 Route::get('/home', 'App\Http\Controllers\HomeController@index')->name('dashboard');
