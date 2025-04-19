@@ -7,7 +7,7 @@
     <h1 class="mb-4">Askari Dashboard</h1>
 
     <div class="row mb-4">
-        <div class="col-md-12">
+        <div class="acol-md-12">
             <div class="card">
                 <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
                     <h5 class="mb-0">Active Visitors</h5>

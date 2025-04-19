@@ -89,7 +89,7 @@
 @section('scripts')
 <script>
     // Visitor Traffic Chart
-    const visitorData = ($analytics['visitorsByDay']);
+    const visitorData = {!! json_encode($analytics['visitorsByDay']) !!};
     const labels = visitorData.map(item => item.date);
     const counts = visitorData.map(item => item.count);
 
@@ -120,7 +120,7 @@
     });
 
     // Floor Chart
-    const floorData = ($analytics['popularFloors']);
+    const floorData = {!! json_encode($analytics['popularFloors']) !!};
     const floorLabels = floorData.map(item => `Floor ${item.floor}`);
     const floorCounts = floorData.map(item => item.visits);
 

@@ -46,15 +46,15 @@ class DashboardController extends Controller
     }
 
     private function getPopularFloors($limit = 5)
-    {
-        return Apartment::select('floor', DB::raw('count(visitors.id) as visits'))
-            ->join('residents', 'apartments.id', '=', 'residents.apartment_id')
-            ->join('visitors', 'residents.id', '=', 'visitors.resident_id')
-            ->groupBy('floor')
-            ->orderByDesc('visits')
-            ->limit($limit)
-            ->get();
-    }
+{
+    return Apartment::select('apartments.floor', DB::raw('count(visitors.id) as visits'))
+        ->join('residents', 'apartments.id', '=', 'residents.apartment_id')
+        ->join('visitors', 'residents.id', '=', 'visitors.resident_id')
+        ->groupBy('apartments.floor')
+        ->orderByDesc('visits')
+        ->limit($limit)
+        ->get();
+}
 
     private function getVisitorsByHour()
     {

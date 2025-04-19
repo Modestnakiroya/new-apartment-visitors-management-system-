@@ -15,10 +15,12 @@ use App\Http\Controllers\UserController;
 Auth::routes();
 
 // Public routes
-Route::get('/', function () {
+Route::get('login', function () {
     return view('auth.login');
-})->middleware('guest');
-
+})->middleware('guest')->name('login');
+Route::get('/', function () {
+    return view('welcome');
+});
 // Authenticated routes
 Route::middleware(['auth'])->group(function () {
     Route::redirect('/home', '/dashboard');
@@ -105,4 +107,9 @@ Route::middleware(['auth'])->group(function () {
     Route::middleware(['can:admin'])->group(function () {
         Route::resource('apartments', ApartmentController::class);
     });
+
+Route::middleware(['auth', 'can:security'])->group(function () {
+    Route::get('/reports', [App\Http\Controllers\ReportController::class, 'index'])->name('reports.index');
+    Route::get('/reports/summary', [App\Http\Controllers\ReportController::class, 'generateSummaryReport'])->name('reports.summary');
+});
 });

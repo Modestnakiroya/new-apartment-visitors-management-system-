@@ -3,10 +3,14 @@
 @section('title', 'Login - Apartment Visitor Management')
 
 @section('content')
-<div class="row justify-content-center mt-5">
-    <div class="col-md-6">
-        <div class="card">
-            <div class="card-header bg-primary text-white">
+
+
+<div class="full-page-background" style="background-image: url('https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80'); margin-top: 0;">
+
+<div class="row justify-content-center pt-4 " style="padding-top: 80px;">
+    <div class="col-md-6 " style="padding-top: 80px;">
+        <div class="card " >
+            <div class="card-header bg-primary text-white ">
                 <h4 class="mb-0">Login</h4>
             </div>
             <div class="card-body">
@@ -36,4 +40,22 @@
         </div>
     </div>
 </div>
+<style>
+     body {
+        margin: 0;
+        padding: 0;
+    }
+
+    .full-page-background {
+        min-height: 100vh;
+        background-size: cover;
+        background-position: center;
+        background-attachment: fixed;
+    }
+
+    .overlay {
+        background-color: rgba(0, 0, 0, 0.6);
+        min-height: 100vh;
+    }
+</style>
 @endsection
