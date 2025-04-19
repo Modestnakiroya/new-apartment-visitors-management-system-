@@ -1,127 +1,164 @@
-<!-- 
-=========================================================
- Light Bootstrap Dashboard - v2.0.1
-=========================================================
-
- Product Page: https://www.creative-tim.com/product/light-bootstrap-dashboard
- Copyright 2019 Creative Tim (https://www.creative-tim.com) & Updivision (https://www.updivision.com)
- Licensed under MIT (https://github.com/creativetimofficial/light-bootstrap-dashboard/blob/master/LICENSE)
-
- Coded by Creative Tim & Updivision
-
-=========================================================
-
- The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software. 
--->
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="utf-8" />
-        <link rel="apple-touch-icon" sizes="76x76" href="{{ asset('light-bootstrap/img/apple-icon.png') }}">
-        <link rel="icon" type="image/png" href="{{ asset('light-bootstrap/img/favicon.ico') }}">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
-        <title>{{ $title }}</title>
-        <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, shrink-to-fit=no' name='viewport' />
-        <!-- Fonts and icons -->
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css" />
-        <!-- CSS Files -->
-        <link href="{{ asset('light-bootstrap/css/bootstrap.min.css') }}" rel="stylesheet" />
-        <link href="{{ asset('light-bootstrap/css/light-bootstrap-dashboard.css?v=2.0.0') }}" rel="stylesheet" />
-        <!-- CSS Just for demo purpose, don't include it in your project -->
-        <link href="{{ asset('light-bootstrap/css/demo.css') }}" rel="stylesheet" />
-        <!-- Poppins Font and Global Styles -->
-        <style>
-            @font-face {
-                font-family: 'Poppins';
-                src: url('{{ asset('light-bootstrap/fonts/Poppins-Medium.ttf') }}') format('truetype');
-                font-weight: 500;
-                font-style: normal;
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@yield('title', 'West View Living')</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            padding-top: 56px;
+        }
+
+        .navbar-brand {
+            font-weight: bold;
+        }
+
+        .main-container {
+            flex: 1;
+            display: flex;
+            flex-direction: row;
+            min-height: calc(100vh - 56px);
+        }
+
+        .sidebar {
+            background-color: #343a40;
+            width: 250px;
+            flex-shrink: 0;
+            transition: all 0.3s;
+        }
+
+        .sidebar .nav-link {
+            color: rgba(255, 255, 255, 0.8);
+            padding: 12px 20px;
+            border-left: 3px solid transparent;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+        }
+
+        .sidebar .nav-link:hover,
+        .sidebar .nav-link.active {
+            color: white;
+            background-color: rgba(255, 255, 255, 0.1);
+            border-left: 3px solid #007bff;
+        }
+
+        .sidebar .nav-link i {
+            margin-right: 10px;
+            width: 20px;
+            text-align: center;
+        }
+
+        .content-area {
+            flex: 1;
+            padding: 20px;
+            overflow-y: auto;
+        }
+
+        @media (max-width: 768px) {
+            .sidebar {
+                width: 70px;
             }
-            body, .wrapper {
-                font-family: 'Poppins', sans-serif;
-                font-weight: 500;
+
+            .sidebar .nav-link span {
+                display: none;
             }
-            /* Override Light Bootstrap's default font (Montserrat) */
-            h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
-                font-family: 'Poppins', sans-serif;
-                font-weight: 500;
+
+            .sidebar .nav-link i {
+                margin-right: 0;
+                font-size: 1.2em;
             }
-            .card, .form-control, .btn, .navbar, .sidebar, .alert {
-                font-family: 'Poppins', sans-serif;
-                font-weight: 500;
-            }
-        </style>
-        @stack('styles')
-    </head>
-    <body>
-        <div class="wrapper @if (!auth()->check() || request()->route()->getName() == '') wrapper-full-page @endif">
-            @if (auth()->check() && request()->route()->getName() != '')
-                @include('layouts.navbars.sidebar')
-            @endif
-            <div class="@if (auth()->check() && request()->route()->getName() != '') main-panel @endif">
-                @include('layouts.navbars.navbar')
-                @yield('content')
-                @include('layouts.footer.nav')
+        }
+    </style>
+</head>
+<body>
+    <!-- Top Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="{{ url('/') }}">
+                <i class="fas fa-building me-2"></i>WestView Living
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    @guest
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ route('login') }}">
+                                <i class="fas fa-sign-in-alt me-1"></i> Login
+                            </a>
+                        </li>
+                    @else
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown">
+                                <i class="fas fa-user-circle me-1"></i> {{ Auth::user()->name }}
+                            </a>
+                            <ul class="dropdown-menu dropdown-menu-end">
+                                <li>
+                                    <a class="dropdown-item" href="{{ route('profile.edit') }}">
+                                        <i class="fas fa-user-edit me-2"></i> Profile
+                                    </a>
+                                </li>
+                                <li><hr class="dropdown-divider"></li>
+                                <li>
+                                    <a class="dropdown-item" href="{{ route('logout') }}"
+                                       onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                                        <i class="fas fa-sign-out-alt me-2"></i> Logout
+                                    </a>
+                                    <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                                        @csrf
+                                    </form>
+                                </li>
+                            </ul>
+                        </li>
+                    @endguest
+                </ul>
             </div>
         </div>
-    </body>
-    <!-- Core JS Files -->
-    <script src="{{ asset('light-bootstrap/js/core/jquery.3.2.1.min.js') }}" type="text/javascript"></script>
-    <script src="{{ asset('light-bootstrap/js/core/popper.min.js') }}" type="text/javascript"></script>
-    <script src="{{ asset('light-bootstrap/js/core/bootstrap.min.js') }}" type="text/javascript"></script>
-    <script src="{{ asset('light-bootstrap/js/plugins/jquery.sharrre.js') }}"></script>
-    <!-- Plugin for Switches -->
-    <script src="{{ asset('light-bootstrap/js/plugins/bootstrap-switch.js') }}"></script>
-    <!-- Google Maps Plugin -->
-    <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=YOUR_KEY_HERE"></script>
-    <!-- Chartist Plugin -->
-    <script src="{{ asset('light-bootstrap/js/plugins/chartist.min.js') }}"></script>
-    <!-- Notifications Plugin -->
-    <script src="{{ asset('light-bootstrap/js/plugins/bootstrap-notify.js') }}"></script>
-    <!-- Control Center for Light Bootstrap Dashboard -->
-    <script src="{{ asset('light-bootstrap/js/light-bootstrap-dashboard.js?v=2.0.0') }}" type="text/javascript"></script>
-    <!-- Light Bootstrap Dashboard DEMO methods -->
-    <script src="{{ asset('light-bootstrap/js/demo.js') }}"></script>
-    @stack('js')
-    <script>
-        $(document).ready(function () {
-            $('#facebook').sharrre({
-                share: { facebook: true },
-                enableHover: false,
-                enableTracking: false,
-                enableCounter: false,
-                click: function(api, options) {
-                    api.simulateClick();
-                    api.openPopup('facebook');
-                },
-                template: '<i class="fab fa-facebook-f"></i> Facebook',
-                url: 'https://light-bootstrap-dashboard-laravel.creative-tim.com/login'
-            });
-            $('#google').sharrre({
-                share: { googlePlus: true },
-                enableCounter: false,
-                enableHover: false,
-                enableTracking: true,
-                click: function(api, options) {
-                    api.simulateClick();
-                    api.openPopup('googlePlus');
-                },
-                template: '<i class="fab fa-google-plus"></i> Google',
-                url: 'https://light-bootstrap-dashboard-laravel.creative-tim.com/login'
-            });
-            $('#twitter').sharrre({
-                share: { twitter: true },
-                enableHover: false,
-                enableTracking: false,
-                enableCounter: false,
-                buttons: { twitter: { via: 'CreativeTim' } },
-                click: function(api, options) {
-                    api.simulateClick();
-                    api.openPopup('twitter');
-                },
-                template: '<i class="fab fa-twitter"></i> Twitter',
-                url: 'https://light-bootstrap-dashboard-laravel.creative-tim.com/login'
-            });
-        });
-    </script>
+    </nav>
+
+    <div class="main-container">
+        @auth
+            <!-- Sidebar -->
+            <nav class="sidebar">
+                @if(Auth::user()->isAdmin())
+                    <a href="{{ route('admin.dashboard') }}" class="nav-link {{ request()->routeIs('admin.dashboard') ? 'active' : '' }}">
+                        <i class="fas fa-tachometer-alt"></i>
+                        <span>Dashboard</span>
+                    </a>
+
+                @endif
+            </nav>
+        @endauth
+
+        <!-- Main Content Area -->
+        <div class="content-area">
+            @if(session('success'))
+                <div class="alert alert-success alert-dismissible fade show">
+                    <i class="fas fa-check-circle me-2"></i>{{ session('success') }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            @endif
+
+            @if(session('error'))
+                <div class="alert alert-danger alert-dismissible fade show">
+                    <i class="fas fa-exclamation-circle me-2"></i>{{ session('error') }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            @endif
+
+            @yield('content')
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    @yield('scripts')
+</body>
 </html>

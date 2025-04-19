@@ -2,42 +2,66 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\Models\Resident;
-use Illuminate\Support\Facades\Auth;
+use Illuminate\Http\Request;
 
 class ResidentController extends Controller
 {
-    /**
-     * Store a new resident in the database.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\RedirectResponse
-     */
+    public function __construct()
+    {
+        $this->middleware('auth');
+        $this->middleware('role:landlord');  // Ensure the landlord role is checked
+    }
+
+    public function index()
+    {
+        $residents = Resident::all();
+        return view('landlord.residents.index', compact('residents'));
+    }
+
     public function create()
     {
-        return view('resident-form');
+        return view('landlord.residents.create');
     }
 
     public function store(Request $request)
     {
-        // Validate the incoming request data
-        $validatedData = $request->validate([
+        $validated = $request->validate([
             'name' => 'required|string|max:255',
-            'apartment_number' => 'required|string|max:50',
+            'apartment_number' => 'required|string|max:10',
             'phone' => 'required|string|max:20',
-            'email' => 'required|email|max:255|unique:residents,email',
+            'email' => 'required|email|max:255',
         ]);
 
-        // Create a new resident
-        Resident::create([
-            'name' => $validatedData['name'],
-            'apartment_number' => $validatedData['apartment_number'],
-            'phone' => $validatedData['phone'],
-            'email' => $validatedData['email'],
+        Resident::create($validated);
+
+        return redirect()->route('landlord.residents.index')->with('success', 'Resident added successfully');
+    }
+
+    public function edit(Resident $resident)
+    {
+        return view('landlord.residents.edit', compact('resident'));
+    }
+
+    public function update(Request $request, Resident $resident)
+    {
+        $validated = $request->validate([
+            'name' => 'required|string|max:255',
+            'apartment_number' => 'required|string|max:10',
+            'phone' => 'required|string|max:20',
+            'email' => 'required|email|max:255',
+            'status' => 'required|in:active,inactive',
         ]);
 
-        // Redirect back to the dashboard with a success message
-        return redirect()->route('dashboard')->with('success', 'Resident added successfully.');
+        $resident->update($validated);
+
+        return redirect()->route('landlord.residents.index')->with('success', 'Resident updated successfully');
+    }
+
+    public function destroy(Resident $resident)
+    {
+        $resident->delete();
+
+        return redirect()->route('landlord.residents.index')->with('success', 'Resident deleted successfully');
     }
 }

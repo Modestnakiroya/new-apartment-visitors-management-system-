@@ -9,10 +9,13 @@ class Apartment extends Model
 {
     use HasFactory;
 
-    protected $fillable = [ 
+    protected $fillable = [
         'building_id',
         'number',
         'floor',
     ];
-
+    public function residents()
+    {
+        return $this->hasMany(Resident::class);
+    }
 }

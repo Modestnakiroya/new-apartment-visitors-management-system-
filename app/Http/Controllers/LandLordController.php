@@ -9,8 +9,9 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
 
-class DashboardController extends Controller
+class LandLordController extends Controller
 {
+
     public function adminDashboard()
     {
         // Basic counts
@@ -31,8 +32,9 @@ class DashboardController extends Controller
             'visitorsByType' => $this->getVisitorsByType()
         ];
 
-        return view('admin.dashboard', compact('stats', 'analytics') + ['activePage' => 'dashboard'] + ['navName' => 'Dashboard']);
+        return view('admin.dashboard', compact('stats', 'analytics'));
     }
+
 
     private function getVisitorsByDay($days = 7)
     {
@@ -97,7 +99,6 @@ class DashboardController extends Controller
 
         return view('resident.dashboard', compact('resident', 'visitors'));
     }
-
     public function securityDashboard()
     {
         $activeVisitors = Visitor::with(['resident.apartment'])
@@ -117,9 +118,22 @@ class DashboardController extends Controller
 
         return view('security.dashboard', compact(
             'activeVisitors',
-
             'recentVisitors',
             'expectedVisitors'
         ));
+    }
+    public function dashboard()
+    {
+        // Basic counts
+        $stats = [
+            'totalVisitors' => Visitor::count(),
+            'activeVisitors' => Visitor::active()->count(),
+            'totalResidents' => Resident::count(),
+            'totalApartments' => Apartment::count(),
+            'occupiedApartments' => Apartment::has('residents')->count(),
+            'vacantApartments' => Apartment::doesntHave('residents')->count()
+        ];
+
+        return view('landlord.landlord', compact('stats'));
     }
 }
