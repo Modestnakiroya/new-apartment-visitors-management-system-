@@ -9,12 +9,28 @@ class Visitor extends Model
 {
     use HasFactory;
 
-    protected $fillable = [ 
+    protected $fillable = [
         'name',
         'phone',
-        'status',
         'email',
         'id_number',
+        'purpose',
+        'resident_id',
+        'visit_date',
+        'visit_time',
+        'status',
+        'pre_registered',
+        'pass_id',
     ];
 
+    // Define the 'active' scope
+    public function scopeActive($query)
+    {
+        return $query->whereNull('exit_time'); // Assumes active visitors have no exit_time
+    }
+
+    public function resident()
+    {
+        return $this->belongsTo(Resident::class);
+    }
 }

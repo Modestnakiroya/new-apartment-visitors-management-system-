@@ -9,11 +9,16 @@ class Resident extends Model
 {
     use HasFactory;
 
-    protected $fillable = [ 
+    protected $fillable = [
         'name',
         'apartment_number',
         'phone',
         'email',
+        'status',
     ];
 
+    public function visitors()
+    {
+        return $this->hasMany(Visitor::class);
+    }
 }

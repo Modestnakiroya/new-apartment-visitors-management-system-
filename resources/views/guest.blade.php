@@ -79,9 +79,48 @@
     </style>
 </head>
 <body>
+<div class="overlay" style="padding-top: 0;">
+        <nav class="navbar navbar-expand-lg navbar-dark fixed-top" style="background-color: rgba(0, 0, 0, 0.8);">
+            <div class="container">
+                <a class="navbar-brand" href="{{ url('/') }}">
+                    <i class="fas fa-building mr-2"></i> WestView Living
+                </a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <!-- Navigation items -->
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <ul class="navbar-nav ml-auto">
+                        <!-- Show login only when not authenticated -->
+                        @guest
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ route('login') }}">
+                                <i class="fas fa-sign-in-alt mr-1"></i> Login
+                            </a>
+                        </li>
+                        @else
+
+                        <!-- Logout for authenticated users -->
+                        <li class="nav-item">
+                            <form method="POST" action="{{ route('logout') }}" id="logout-form">
+                                @csrf
+                                <button type="button" class="nav-link btn btn-link"
+                                    onclick="confirmLogout()"
+                                    style="display: inline; padding: 0; border: none; background: none;">
+                                    <i class="fas fa-sign-out-alt mr-1"></i> Logout
+                                </button>
+                            </form>
+                        </li>
+                        @endguest
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </div>
     <div class="container mt-5">
         <h1 class="text-center mb-4 custom-font text-white">Apartment Visitor Check-in</h1>
-        
+
         <div class="row justify-content-center">
             <div class="col-md-8">
                 <!-- Check-in Form -->
@@ -137,7 +176,7 @@
                                 <label for="otherPurpose">Please Specify:</label>
                                 <input type="text" class="form-control" id="otherPurpose">
                             </div>
-                            
+
                             <button type="button" class="btn btn-primary btn-block" onclick="showResidentForm()">Next <i class="fas fa-arrow-right ml-2"></i></button>
                         </form>
                     </div>
@@ -183,7 +222,7 @@
                                     <input type="time" class="form-control" id="visitTime" required>
                                 </div>
                             </div>
-                            
+
                             <div class="form-group">
                                 <div class="form-check">
                                     <input class="form-check-input" type="checkbox" id="isPreRegistered">
@@ -192,7 +231,7 @@
                                     </label>
                                 </div>
                             </div>
-                            
+
                             <div class="text-center">
                                 <button type="button" class="btn btn-secondary mr-2" onclick="showVisitorForm()"><i class="fas fa-arrow-left mr-2"></i> Back</button>
                                 <button type="button" class="btn btn-primary" onclick="showConfirmation()">Next <i class="fas fa-arrow-right ml-2"></i></button>
@@ -266,7 +305,7 @@
                             <h5><i class="fas fa-check-circle mr-2"></i>Check-in Successful!</h5>
                             <p>Your visit has been registered. Please show this pass to security upon arrival.</p>
                         </div>
-                        
+
                         <div class="card mb-3 border-success">
                             <div class="card-header bg-success text-white">
                                 <h5 class="mb-0">VISITOR PASS</h5>
@@ -277,14 +316,14 @@
                                 <p class="mb-1">Apartment: <span id="passApartmentNumber"></span></p>
                                 <p class="mb-1">Date & Time: <span id="passDateTime"></span></p>
                                 <p>Purpose: <span id="passPurpose"></span></p>
-                                
+
                                 <div class="qr-code mt-3">
                                     <img src="/api/placeholder/150/150" alt="QR Code" class="img-fluid">
                                     <p class="mt-2">Pass ID: <span id="passId"></span></p>
                                 </div>
                             </div>
                         </div>
-                        
+
                         <div class="mt-4">
                             <button type="button" class="btn btn-outline-primary mr-2" onclick="printPass()">
                                 <i class="fas fa-print mr-2"></i> Print Pass
@@ -296,7 +335,7 @@
                     </div>
                 </div>
             </div>
-            
+
             <div class="col-md-4">
                 <!-- Building Information -->
                 <div class="card">
@@ -320,7 +359,7 @@
                         </ul>
                     </div>
                 </div>
-                
+
                 <!-- FAQ -->
                 <div class="card">
                     <div class="card-header">
@@ -388,7 +427,7 @@
             const visitorName = document.getElementById('visitorName').value;
             const visitorPhone = document.getElementById('visitorPhone').value;
             const visitPurpose = document.getElementById('visitPurpose').value;
-            
+
             if (visitorName && visitorPhone && visitPurpose) {
                 document.getElementById('checkInForm').style.display = 'none';
                 document.getElementById('residentForm').style.display = 'block';
@@ -404,24 +443,24 @@
             const apartmentNumber = document.getElementById('apartmentNumber').value;
             const visitDate = document.getElementById('visitDate').value;
             const visitTime = document.getElementById('visitTime').value;
-            
+
             if (residentName && apartmentNumber && visitDate && visitTime) {
                 document.getElementById('residentForm').style.display = 'none';
                 document.getElementById('confirmationCard').style.display = 'block';
-                
+
                 // Fill confirmation details
                 document.getElementById('confirmName').textContent = document.getElementById('visitorName').value;
                 document.getElementById('confirmPhone').textContent = document.getElementById('visitorPhone').value;
-                
+
                 let purpose = document.getElementById('visitPurpose').value;
                 if (purpose === 'Other') {
                     purpose += ': ' + document.getElementById('otherPurpose').value;
                 }
                 document.getElementById('confirmPurpose').textContent = purpose;
-                
+
                 document.getElementById('confirmResident').textContent = residentName;
                 document.getElementById('confirmApartment').textContent = apartmentNumber;
-                
+
                 const formattedDate = new Date(visitDate + 'T' + visitTime).toLocaleString();
                 document.getElementById('confirmDateTime').textContent = formattedDate;
             } else {
@@ -430,29 +469,35 @@
         }
 
         function submitVisit() {
-            
+
             // Fill pass details
             document.getElementById('passVisitorName').textContent = document.getElementById('visitorName').value;
             document.getElementById('passResidentName').textContent = document.getElementById('residentName').value;
             document.getElementById('passApartmentNumber').textContent = document.getElementById('apartmentNumber').value;
-            
+
             let purpose = document.getElementById('visitPurpose').value;
             if (purpose === 'Other') {
                 purpose += ': ' + document.getElementById('otherPurpose').value;
             }
             document.getElementById('passPurpose').textContent = purpose;
-            
+
             const visitDate = document.getElementById('visitDate').value;
             const visitTime = document.getElementById('visitTime').value;
             const formattedDate = new Date(visitDate + 'T' + visitTime).toLocaleString();
             document.getElementById('passDateTime').textContent = formattedDate;
-            
+
             // Generate random pass ID
             document.getElementById('passId').textContent = 'VP-' + Math.floor(100000 + Math.random() * 900000);
-            
+
             // Hide confirmation and show pass
             document.getElementById('confirmationCard').style.display = 'none';
             document.getElementById('visitorPass').style.display = 'block';
+        }
+
+        function confirmLogout() {
+            if (confirm('Are you sure you want to logout?')) {
+                document.getElementById('logout-form').submit();
+            }
         }
 
         function printPass() {

@@ -132,6 +132,8 @@
             <ul class="navbar-nav">
                 <li class="nav-item"><a class="nav-link" href="{{ route('guest') }}">Guest</a></li>
                 <li class="nav-item"><a class="nav-link" href="{{ route('login') }}">Login</a></li>
+                <li class="nav-item"><a class="nav-link" href="{{ route('admin.dashboard') }}">Admin</a></li>
+
                 <li class="nav-item"><a class="nav-link" href="{{ route('register') }}">Register</a></li>
             </ul>
         </div>
