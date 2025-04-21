@@ -21,6 +21,13 @@ class ApartmentController extends Controller
     {
         return view('apartments.create');
     }
+    public function destroy($id)
+    {
+        $apartment = Apartment::findOrFail($id);
+        $apartment->delete();
+
+        return redirect()->route('apartments.index')->with('success', 'Apartment deleted successfully');
+    }
 
     public function store(Request $request)
     {
