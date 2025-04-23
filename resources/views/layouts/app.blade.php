@@ -26,7 +26,7 @@
         }
 
         .sidebar {
-            background-color: #343a40;
+            background-color:rgb(58, 100, 143);
             width: 250px;
             flex-shrink: 0;
             transition: all 0.3s;
@@ -50,7 +50,7 @@
 
         .sidebar .nav-link i {
             margin-right: 10px;
-            width: 20px;
+            width: 30px;
             text-align: center;
         }
 

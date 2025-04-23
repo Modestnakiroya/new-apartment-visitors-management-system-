@@ -44,11 +44,12 @@
         }
 
         .feature-card {
-            background-color: #2779bd;
+            background-color: #F7F7F7;
             border-radius: 10px;
             padding: 20px;
             margin-bottom: 20px;
             transition: transform 0.3s ease;
+            color: black;
         }
 
         .feature-card:hover {
@@ -113,16 +114,17 @@
                 <div class="col-md-8">
                     <h1 class="display-4 font-weight-bold">Pearl Apartments Management System</h1>
                     <p class="lead">A comprehensive solution for managing apartment visitors and residents</p>
-
-                    <div class="mt-4">
-                        <a href="{{ route('login') }}" class="btn btn-outline-light btn-lg">
+                       <div class="container">
+                         <div class="mt-4">
+                          <a href="{{ route('login') }}" class="btn btn-outline-light btn-lg">
                             <i class="fas fa-sign-in-alt mr-1"></i> Staff Login
-                        </a>
-                    </div>
+                          </a>
+                         </div>
+                       </div>
                 </div>
             </div>
 
-            <div class="row mt-5 ">
+            <!--<div class="row mt-5 ">
                 <div class="col-md-4">
                     <div class="feature-card text-center ">
                         <div class="feature-icon">
@@ -150,7 +152,7 @@
                         <p>Comprehensive visitor statistics and reporting</p>
                     </div>
                 </div>
-            </div>
+            </div>-->
         </div>
     </div>
 

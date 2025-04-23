@@ -91,8 +91,8 @@ class DashboardController extends Controller
                 ->orderBy('expected_arrival_time')
                 ->get(),
             'recent' => Visitor::where('resident_id', $resident->id)
-                ->whereNotNull('exit_time')
-                ->latest('exit_time')
+                ->whereNotNull('expected_exit_time')
+                ->latest('expected_exit_time')
                 ->take(10)
                 ->get()
         ];

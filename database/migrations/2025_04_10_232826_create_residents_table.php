@@ -11,7 +11,7 @@ return new class extends Migration
         Schema::create('residents', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
-            $table->foreignId('apartment_id')->constrained()->onDelete('cascade');
+            $table->string('apartment_id');
             $table->string('phone')->nullable();
             $table->string('emergency_contact')->nullable();
             $table->timestamps();
