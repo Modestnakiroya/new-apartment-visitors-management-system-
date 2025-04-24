@@ -7,62 +7,122 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
+        :root {
+            --sidebar-bg: #2c3e50;
+            --sidebar-hover: #34495e;
+            --sidebar-active: #3498db;
+            --text-light: #ecf0f1;
+        }
+        
         body {
             min-height: 100vh;
             display: flex;
             flex-direction: column;
-            padding-top: 56px;
+            padding-top: 60px;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f8f9fa;
         }
 
         .navbar-brand {
             font-weight: bold;
+            font-size: 1.4rem;
+            letter-spacing: 0.5px;
         }
 
         .main-container {
             flex: 1;
             display: flex;
             flex-direction: row;
-            min-height: calc(100vh - 56px);
+            min-height: calc(100vh - 60px);
         }
 
         .sidebar {
-            background-color:rgb(58, 100, 143);
-            width: 250px;
+            background: var(--sidebar-bg);
+            width: 280px;
             flex-shrink: 0;
             transition: all 0.3s;
+            box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
         }
 
         .sidebar .nav-link {
-            color: rgba(255, 255, 255, 0.8);
-            padding: 12px 20px;
-            border-left: 3px solid transparent;
-            transition: all 0.2s;
+            color: var(--text-light);
+            padding: 16px 25px;
+            border-left: 4px solid transparent;
+            transition: all 0.3s;
             display: flex;
             align-items: center;
+            font-size: 1.05rem;
+            margin: 4px 0;
         }
 
-        .sidebar .nav-link:hover,
+        .sidebar .nav-link:hover {
+            color: white;
+            background-color: var(--sidebar-hover);
+            border-left: 4px solid var(--sidebar-active);
+            transform: translateX(4px);
+        }
+
         .sidebar .nav-link.active {
             color: white;
-            background-color: rgba(255, 255, 255, 0.1);
-            border-left: 3px solid #007bff;
+            background-color: var(--sidebar-hover);
+            border-left: 4px solid var(--sidebar-active);
+            font-weight: 500;
         }
 
         .sidebar .nav-link i {
-            margin-right: 10px;
+            margin-right: 14px;
             width: 30px;
             text-align: center;
+            font-size: 1.2rem;
         }
 
         .content-area {
             flex: 1;
-            padding: 20px;
+            padding: 25px;
             overflow-y: auto;
+            background-color: #f8f9fa;
+        }
+
+        .navbar-dark {
+            background-color: #1a2a3a !important;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .dropdown-menu {
+            border-radius: 8px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            border: none;
+            padding: 8px 0;
+        }
+
+        .dropdown-item {
+            padding: 10px 20px;
+            transition: all 0.2s;
+        }
+
+        .dropdown-item:hover {
+            background-color: #f1f5f9;
+        }
+
+        .alert {
+            border-radius: 8px;
+            border: none;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
+        }
+
+        .alert-success {
+            background-color: #d1f2eb;
+            color: #16a085;
+        }
+
+        .alert-danger {
+            background-color: #fadbd8;
+            color: #c0392b;
         }
 
         @media (max-width: 768px) {
             .sidebar {
-                width: 70px;
+                width: 80px;
             }
 
             .sidebar .nav-link span {
@@ -71,7 +131,12 @@
 
             .sidebar .nav-link i {
                 margin-right: 0;
-                font-size: 1.2em;
+                font-size: 1.4em;
+            }
+            
+            .sidebar .nav-link {
+                justify-content: center;
+                padding: 18px 10px;
             }
         }
     </style>
