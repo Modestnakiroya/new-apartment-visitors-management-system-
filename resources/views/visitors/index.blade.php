@@ -11,21 +11,6 @@
         </a>
     </div>
 
-    <div class="card mb-4">
-        <div class="card-body">
-            <form action="{{ route('visitors.search') }}" method="GET" class="row g-3">
-                <div class="col-md-10">
-                    <input type="text" class="form-control" name="query" placeholder="Search by visitor or resident name..." value="{{ $query ?? '' }}">
-                </div>
-                <div class="col-md-2">
-                    <button type="submit" class="btn btn-primary w-100">
-                        <i class="fas fa-search"></i> Search
-                    </button>
-                </div>
-            </form>
-        </div>
-    </div>
-
     <div class="card">
         <div class="card-body">
             @if($visitors->count() > 0)

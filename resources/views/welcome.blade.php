@@ -16,17 +16,25 @@
             background-attachment: fixed;
             height: 100vh;
             font-family: 'Arial', sans-serif;
+            margin: 0;
         }
 
         .overlay {
             background-color: rgba(0, 0, 0, 0.6);
             height: 100%;
             width: 100%;
+            position: absolute;
+            top: 0;
+            left: 0;
         }
 
         .main-content {
-            padding-top: 120px;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
             color: white;
+            text-align: center;
         }
 
         .navbar {
@@ -110,55 +118,21 @@
         </nav>
 
         <div class="container main-content">
-            <div class="row">
-                <div class="col-md-8">
+            <div class="row justify-content-center">
+                <div class="col-md-10 col-lg-8">
                     <h1 class="display-4 font-weight-bold">Pearl Apartments Management System</h1>
                     <p class="lead">A comprehensive solution for managing apartment visitors and residents</p>
-                       <div class="container">
-                         <div class="mt-4">
-                          <a href="{{ route('login') }}" class="btn btn-outline-light btn-lg">
+                    <div class="mt-4">
+                        <a href="{{ route('login') }}" class="btn btn-outline-light btn-lg">
                             <i class="fas fa-sign-in-alt mr-1"></i> Staff Login
-                          </a>
-                         </div>
-                       </div>
+                        </a>
+                    </div>
                 </div>
             </div>
-
-            <!--<div class="row mt-5 ">
-                <div class="col-md-4">
-                    <div class="feature-card text-center ">
-                        <div class="feature-icon">
-                            <i class="fas fa-clipboard-list"></i>
-                        </div>
-                        <h4>Easy Check-in</h4>
-                        <p>Quick and hassle-free visitor registration process</p>
-                    </div>
-                </div>
-                <div class="col-md-4">
-                    <div class="feature-card text-center">
-                        <div class="feature-icon">
-                            <i class="fas fa-shield-alt"></i>
-                        </div>
-                        <h4>Enhanced Security</h4>
-                        <p>Keep track of all visitors and maintain building security</p>
-                    </div>
-                </div>
-                <div class="col-md-4">
-                    <div class="feature-card text-center">
-                        <div class="feature-icon">
-                            <i class="fas fa-chart-line"></i>
-                        </div>
-                        <h4>Complete Analytics</h4>
-                        <p>Comprehensive visitor statistics and reporting</p>
-                    </div>
-                </div>
-            </div>-->
         </div>
-    </div>
 
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-</body>
-
-</html>
+        <!-- Optional feature cards block (currently commented out) -->
+        <!--
+        <div class="row mt-5">
+            <div class="col-md-4">
+                <div class
